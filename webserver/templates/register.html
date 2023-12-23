@@ -45,6 +45,9 @@ Log in
                         aria-describedby="emailHelp" required>
                     <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
                 </div>
+                {% if error %}
+                    <h2>Username already taken!</h2>
+                {% endif %}
                 <button type="submit" class="btn btn-dark">Submit</button>
             </form>
         </div>

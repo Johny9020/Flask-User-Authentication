@@ -1,17 +1,12 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request, redirect, session
 from routes.auth import auth
-from pathlib import Path
 
-THIS_FOLDER = Path(__file__).parent.resolve()
+import bcrypt
 
+app = Flask(__name__)
+app.config['SECRET_KEY'] = 'secret key'
 
-
-app = Flask('User Authentication Python - Flask', root_path=THIS_FOLDER)
-
-app.secret_key = 'secret key'
 app.register_blueprint(auth)
-
-print(app.root_path)
 
 
 @app.route('/')

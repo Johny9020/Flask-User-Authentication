@@ -3,4 +3,3 @@ bcrypt
 pymongo
 uuid
 pyjwt
-jinja2

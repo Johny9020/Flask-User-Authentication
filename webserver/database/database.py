@@ -1,4 +1,5 @@
 from pymongo import MongoClient
+from datetime import datetime, timedelta
 import bcrypt
 
 
@@ -7,17 +8,15 @@ database = mongo.get_database('UserAuthentication')
 users_collection = database.get_collection('Users')
 
 
-def encrypt_password(password):
-    return bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
+def insert_user(username, password, uuid4=None):
+    users_collection.insert_one({'username': username, 'password': password, 'session_token': uuid4,
+                                 'last_login': str(datetime.now()),
+                                 'token_expiry': str(datetime.now() + timedelta(hours=1))})
 
 
-def insert_user(username, password):
-    users_collection.insert_one({'username': username, 'password': encrypt_password(password)})
-
-
-def check_password(password, encrypted):
-    return bcrypt.checkpw(password.encode('utf-8'), encrypted.encode('utf-8'))
-
-
-def get_user(user):
+def get_user_by_username(user):
     return users_collection.find_one({'username': user})
+
+
+def get_user_by_id(user_id):
+    return users_collection.find_one({'_id': user_id})
